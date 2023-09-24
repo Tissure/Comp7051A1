@@ -13,6 +13,13 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
 
+    [SerializeField]
+    private GameObject Ball;
+    private Rigidbody _BallRigidBody;
+
+    [SerializeField]
+    public float _speed = 3.0f;
+
     // Make sure there is only ever one GameManager
     private void Awake()
     {
@@ -25,6 +32,10 @@ public class GameManager : MonoBehaviour
         {
             _instance = this;
         }
+        _BallRigidBody = Ball.GetComponent<Rigidbody>();
+        Instantiate(Ball, new Vector3(0, 0, -5.5f), Quaternion.identity);
+        startBall();
+
     }
 
     // Start is called before the first frame update
@@ -34,7 +45,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         
     }
@@ -55,6 +66,7 @@ public class GameManager : MonoBehaviour
     public void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        startBall();
     }
 
     // Testing to see if it works.
@@ -73,5 +85,18 @@ public class GameManager : MonoBehaviour
         return PointR;
     }
 
+    public void startBall()
+    {
+        Debug.Log("ForceAdd");
+        GameObject.Find("Ball(Clone)").GetComponent<Rigidbody>().AddForce(GenForceRandDir(), ForceMode.VelocityChange);
+    }
+
+    public Vector3 GenForceRandDir()
+    {
+        // Random Angle, Left or Right
+        int angle = Random.Range(-2, 2) >= 1 ? -90 : 90;
+
+        return new Vector3(Mathf.Sin(angle) * _speed, 0, Mathf.Cos(angle) * _speed);
+    }
 
 }
