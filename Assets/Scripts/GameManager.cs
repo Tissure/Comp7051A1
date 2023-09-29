@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
 
     public void AddPoint(int side)
     {
-        if (side > 0)
+        if (side < 0)
         {
             PointR += 1;
         }
