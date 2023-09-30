@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,10 +13,17 @@ public class GameManager : MonoBehaviour
 
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
-
+    [SerializeField]
+    private GameObject P1;
+    [SerializeField]
+    private GameObject P2;
     [SerializeField]
     private GameObject Ball;
+    [SerializeField]
+    private PointDisplay PointDisplay;
     private Rigidbody _BallRigidBody;
+    [SerializeField]
+    private float paddleInitPos = -5.5f;
 
     [SerializeField]
     public float _speed = 3.0f;
@@ -33,21 +41,9 @@ public class GameManager : MonoBehaviour
             _instance = this;
         }
         _BallRigidBody = Ball.GetComponent<Rigidbody>();
-        Instantiate(Ball, new Vector3(0, 0, -5.5f), Quaternion.identity);
+        //Instantiate(Ball, new Vector3(0, 0, -5.5f), Quaternion.identity);
         startBall();
 
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        
     }
 
     public void AddPoint(int side)
@@ -60,12 +56,17 @@ public class GameManager : MonoBehaviour
         {
             PointL += 1;
         }
+        PointDisplay.UpdateScore();
     }
 
     // Reset the Level
     public void RestartLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Debug.Log("Restart");
+        P1.transform.position = new Vector3(P1.transform.position.x, P1.transform.position.y, paddleInitPos);
+        P2.transform.position = new Vector3(P2.transform.position.x, P2.transform.position.y, paddleInitPos);
+        Ball.transform.position = new Vector3(0, 0, -5.5f);
         startBall();
     }
 
@@ -88,7 +89,7 @@ public class GameManager : MonoBehaviour
     public void startBall()
     {
         Debug.Log("ForceAdd");
-        GameObject.Find("Ball(Clone)").GetComponent<Rigidbody>().AddForce(GenForceRandDir(), ForceMode.VelocityChange);
+        Ball.GetComponent<Rigidbody>().AddForce(GenForceRandDir(), ForceMode.VelocityChange);
     }
 
     public Vector3 GenForceRandDir()
@@ -98,5 +99,7 @@ public class GameManager : MonoBehaviour
 
         return new Vector3(Mathf.Sin(angle) * _speed, 0, Mathf.Cos(angle) * _speed);
     }
+
+
 
 }

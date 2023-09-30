@@ -11,6 +11,11 @@ public class PointDisplay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        UpdateScore();
+    }
+
+    public void UpdateScore()
+    {
         text.text = GameManager.Instance.getPointL().ToString() + "    " + GameManager.Instance.getPointR().ToString();
     }
 }

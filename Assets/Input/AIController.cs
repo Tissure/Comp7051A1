@@ -11,7 +11,7 @@ public class AIController : MonoBehaviour
     private Transform ballTransform;
     private void Start()
     {
-        ballTransform = GameObject.Find("Ball(Clone)").GetComponent<Transform>();
+        ballTransform = GameObject.Find("Ball").GetComponent<Transform>();
     }
     private void FixedUpdate()
     {
