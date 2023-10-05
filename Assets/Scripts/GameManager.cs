@@ -85,10 +85,11 @@ public class GameManager : MonoBehaviour
     {
         return PointR;
     }
-
+    
     public void startBall()
     {
         Debug.Log("ForceAdd");
+        Ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
         Ball.GetComponent<Rigidbody>().AddForce(GenForceRandDir(), ForceMode.VelocityChange);
     }
 
