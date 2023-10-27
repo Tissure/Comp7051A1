@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
     InputActionsPlayer inputs;
     InputAction movement;
+    InputAction cameraMovement;
 
     [SerializeField]
     public float movementSpeed = 5.0f;
@@ -22,17 +23,20 @@ public class Player : MonoBehaviour
     {
         inputs = new InputActionsPlayer();
         movement = inputs.Player.Movement;
+        cameraMovement = inputs.Player.Camera;
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void OnEnable()
     {
         movement.Enable();
+        cameraMovement.Enable();
     }
 
     private void OnDisable()
     {
         movement.Disable();
+        cameraMovement.Disable();
     }
 
     private void Update()
@@ -45,7 +49,7 @@ public class Player : MonoBehaviour
 
     void RotateCamera()
     {
-        Vector2 mousemovement = Mouse.current.delta.ReadValue();
+        Vector2 mousemovement = cameraMovement.ReadValue<Vector2>();
         xrotation -= mousemovement.y * Time.deltaTime * mouseSensitivity;
         xrotation = Mathf.Clamp(xrotation, -90, 90);
         yrotation += mousemovement.x * Time.deltaTime * mouseSensitivity;
