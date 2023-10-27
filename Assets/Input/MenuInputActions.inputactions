@@ -1,0 +1,45 @@
+{
+    "name": "MenuInputActions",
+    "maps": [
+        {
+            "name": "PlayerMenu",
+            "id": "c2676b07-0209-4322-81e0-9c7115054cf4",
+            "actions": [
+                {
+                    "name": "Menu",
+                    "type": "Button",
+                    "id": "f9b4495c-69b8-4bb7-8293-bda4201c65a3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "429247c8-eb54-4e89-b775-511e50d1ab08",
+                    "path": "<Keyboard>/home",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8b045241-a983-43c0-8fdc-bbb2125bfa45",
+                    "path": "<NimbusGamepadHid>/homeButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
