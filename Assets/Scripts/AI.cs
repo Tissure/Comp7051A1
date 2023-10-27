@@ -75,11 +75,6 @@ public class AI : MonoBehaviour
         Animator.SetFloat("XMove", Velocity.x);
         Animator.SetFloat("YMove", Velocity.y);
 
-        //float deltaMagnitude = worldDeltaPosition.magnitude;
-        //if (deltaMagnitude > Agent.radius / 2)
-        //{
-        //    transform.position = Vector3.Lerp(Animator.rootPosition, Agent.nextPosition, smooth);
-        //}
     }
 
     public void StopMoving()
@@ -92,15 +87,11 @@ public class AI : MonoBehaviour
     {
         Agent.enabled = true;
         Agent.isStopped = false;
-        WaitForSeconds Wait = new WaitForSeconds(WaitDelay);
+        WaitForSeconds Wait = new WaitForSeconds(0);
         while (true)
         {
             int index = Random.Range(1, Triangulation.vertices.Length - 1);
-            Agent.SetDestination(Vector3.Lerp(
-                Triangulation.vertices[index],
-                Triangulation.vertices[index + (Random.value > 0.5f ? -1 : 1)],
-                Random.value)
-            );
+            Agent.SetDestination(Triangulation.vertices[index]);
 
             yield return null;
             yield return new WaitUntil(() => Agent.remainingDistance <= Agent.stoppingDistance);
