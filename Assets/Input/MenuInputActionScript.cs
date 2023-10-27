@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class MenuInputActionScript : MonoBehaviour
 {
@@ -33,7 +34,8 @@ public class MenuInputActionScript : MonoBehaviour
 
     private void DoMenu(InputAction.CallbackContext obj)
     {
-        Debug.Log("Do Menu");
+        //Debug.Log("Do Menu");
+        SceneManager.LoadScene("DesignMaze");
     }
 
     // Start is called before the first frame update
