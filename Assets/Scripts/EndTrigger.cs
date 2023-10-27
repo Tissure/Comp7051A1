@@ -8,6 +8,9 @@ public class EndTrigger : MonoBehaviour
     [SerializeField]
     public GameObject PanelPrefab;
 
+    [SerializeField]
+    public GameObject canvas;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,10 +28,13 @@ public class EndTrigger : MonoBehaviour
         // Check for Player Tag
         // If Player, Instantiate Panel w/ Text ("You Win")
 
-        if (other.transform.gameObject.tag == "Player") 
+        if (other.tag == "Player")
         {
             // We know for sure the other GameObject is a player, now instantiate the PanelPrefab as a child of Canvas
-            Instantiate(PanelPrefab);
+
+            GameObject child = Instantiate(PanelPrefab, canvas.gameObject.transform);
+            child.transform.SetParent(canvas.transform);
+
         }
 
     }

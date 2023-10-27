@@ -12,7 +12,8 @@ public class StartTrigger : MonoBehaviour
     void Start()
     {
         // Beginning of the game, instantiate playerPrefab
-        Instantiate(playerPrefab);
+        // at this.gameObject.transform
+        Instantiate(playerPrefab, this.gameObject.transform );
     }
 
     // Update is called once per frame
