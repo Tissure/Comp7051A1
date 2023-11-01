@@ -8,14 +8,17 @@ public class Player : MonoBehaviour
     InputActionsPlayer inputs;
     InputAction movement;
     InputAction cameraMovement;
+    InputAction noclip;
 
     [SerializeField]
-    public float movementSpeed = 5.0f;
+    private float movementSpeed = 5.0f;
     [SerializeField]
-    public float mouseSensitivity = 10.0f;
+    private float mouseSensitivity = 10.0f;
 
     [SerializeField]
-    private Camera camera;
+    private new Camera camera;
+    private Rigidbody rb;
+    private Collider collider;
     float xrotation = 0;
     float yrotation = 0;
 
@@ -24,19 +27,30 @@ public class Player : MonoBehaviour
         inputs = new InputActionsPlayer();
         movement = inputs.Player.Movement;
         cameraMovement = inputs.Player.Camera;
+        noclip = inputs.Player.NoClip;
         Cursor.lockState = CursorLockMode.Locked;
+        rb = GetComponent<Rigidbody>();
+        collider = GetComponent<Collider>();
+        noclip.performed += context => {
+            bool enabled = GetComponent<Collider>().enabled;
+            collider.enabled = !enabled;
+            rb.useGravity = !enabled;
+            rb.velocity = Vector3.zero;
+        };
     }
 
     private void OnEnable()
     {
         movement.Enable();
         cameraMovement.Enable();
+        noclip.Enable();
     }
 
     private void OnDisable()
     {
         movement.Disable();
         cameraMovement.Disable();
+        noclip.Disable();
     }
 
     private void Update()
@@ -44,7 +58,7 @@ public class Player : MonoBehaviour
 
         RotateCamera();
         Vector2 v2 = movement.ReadValue<Vector2>();
-        transform.Translate(new Vector3(v2.x, 0, v2.y) * movementSpeed * Time.deltaTime);
+        transform.Translate(movementSpeed * Time.deltaTime * new Vector3(v2.x, 0, v2.y));
     }
 
     void RotateCamera()
@@ -57,4 +71,6 @@ public class Player : MonoBehaviour
         //Rotating the player
         transform.localRotation = Quaternion.Euler(0, yrotation, 0);
     }
+
+ 
 }
