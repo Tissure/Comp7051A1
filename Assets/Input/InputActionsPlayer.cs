@@ -44,6 +44,15 @@ public partial class @InputActionsPlayer: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""NoClip"",
+                    ""type"": ""Value"",
+                    ""id"": ""80456e69-28ab-4a0f-8008-38fb94003b13"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -222,6 +231,17 @@ public partial class @InputActionsPlayer: IInputActionCollection2, IDisposable
                     ""action"": ""Camera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b33cf6e9-c6ef-4672-bc68-c04ec493fdf5"",
+                    ""path"": ""<Keyboard>/slash"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NoClip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -232,6 +252,7 @@ public partial class @InputActionsPlayer: IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Camera = m_Player.FindAction("Camera", throwIfNotFound: true);
+        m_Player_NoClip = m_Player.FindAction("NoClip", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -295,12 +316,14 @@ public partial class @InputActionsPlayer: IInputActionCollection2, IDisposable
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_Camera;
+    private readonly InputAction m_Player_NoClip;
     public struct PlayerActions
     {
         private @InputActionsPlayer m_Wrapper;
         public PlayerActions(@InputActionsPlayer wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputAction @Camera => m_Wrapper.m_Player_Camera;
+        public InputAction @NoClip => m_Wrapper.m_Player_NoClip;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -316,6 +339,9 @@ public partial class @InputActionsPlayer: IInputActionCollection2, IDisposable
             @Camera.started += instance.OnCamera;
             @Camera.performed += instance.OnCamera;
             @Camera.canceled += instance.OnCamera;
+            @NoClip.started += instance.OnNoClip;
+            @NoClip.performed += instance.OnNoClip;
+            @NoClip.canceled += instance.OnNoClip;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -326,6 +352,9 @@ public partial class @InputActionsPlayer: IInputActionCollection2, IDisposable
             @Camera.started -= instance.OnCamera;
             @Camera.performed -= instance.OnCamera;
             @Camera.canceled -= instance.OnCamera;
+            @NoClip.started -= instance.OnNoClip;
+            @NoClip.performed -= instance.OnNoClip;
+            @NoClip.canceled -= instance.OnNoClip;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -347,5 +376,6 @@ public partial class @InputActionsPlayer: IInputActionCollection2, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnCamera(InputAction.CallbackContext context);
+        void OnNoClip(InputAction.CallbackContext context);
     }
 }

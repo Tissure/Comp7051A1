@@ -22,6 +22,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "NoClip",
+                    "type": "Value",
+                    "id": "80456e69-28ab-4a0f-8008-38fb94003b13",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -200,6 +209,17 @@
                     "action": "Camera",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "b33cf6e9-c6ef-4672-bc68-c04ec493fdf5",
+                    "path": "<Keyboard>/slash",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "NoClip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
