@@ -11,14 +11,14 @@ public class Player : MonoBehaviour
     InputAction noclip;
 
     [SerializeField]
-    private float movementSpeed = 5.0f;
+    private float movementSpeed = 10.0f;
     [SerializeField]
-    private float mouseSensitivity = 10.0f;
+    private float mouseSensitivity = 15.0f;
 
     [SerializeField]
     private new Camera camera;
     private Rigidbody rb;
-    private Collider collider;
+    private new Collider collider;
     float xrotation = 0;
     float yrotation = 0;
 
@@ -55,10 +55,15 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-
         RotateCamera();
+
+    }
+
+    private void FixedUpdate()
+    {
         Vector2 v2 = movement.ReadValue<Vector2>();
-        transform.Translate(movementSpeed * Time.deltaTime * new Vector3(v2.x, 0, v2.y));
+        rb.MovePosition(transform.position + (transform.forward * Input.GetAxis("Vertical") * movementSpeed * Time.deltaTime) + (transform.right * Input.GetAxis("Horizontal") * movementSpeed * Time.deltaTime));
+        //transform.Translate(movementSpeed * Time.deltaTime * new Vector3(v2.x, 0, v2.y));  
     }
 
     void RotateCamera()

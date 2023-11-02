@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef9cc9690767a714d8380d12a4336cab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 20
+  movementSpeed: 10
   mouseSensitivity: 10
   camera: {fileID: 708169774291555198}
 --- !u!54 &8409803348414082191
