@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     float xrotation = 0;
     float yrotation = 0;
 
+    private Transform movementTransform;
     void Awake()
     {
         inputs = new InputActionsPlayer();
@@ -29,10 +30,14 @@ public class Player : MonoBehaviour
         cameraMovement = inputs.Player.Camera;
         noclip = inputs.Player.NoClip;
         Cursor.lockState = CursorLockMode.Locked;
+
         rb = GetComponent<Rigidbody>();
         collider = GetComponent<Collider>();
+        movementTransform = GetComponent<Transform>();
+
         noclip.performed += context => {
             bool enabled = GetComponent<Collider>().enabled;
+            movementTransform = (!enabled) ? transform : camera.transform;
             collider.enabled = !enabled;
             rb.useGravity = !enabled;
             rb.velocity = Vector3.zero;
@@ -62,8 +67,8 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         Vector2 v2 = movement.ReadValue<Vector2>();
-        rb.MovePosition(transform.position + (transform.forward * Input.GetAxis("Vertical") * movementSpeed * Time.deltaTime) + (transform.right * Input.GetAxis("Horizontal") * movementSpeed * Time.deltaTime));
-        //transform.Translate(movementSpeed * Time.deltaTime * new Vector3(v2.x, 0, v2.y));  
+        rb.MovePosition(transform.position + (movementTransform.forward * v2.y * movementSpeed * Time.deltaTime) 
+            + (movementTransform.right * v2.x * movementSpeed * Time.deltaTime)); 
     }
 
     void RotateCamera()
@@ -77,5 +82,5 @@ public class Player : MonoBehaviour
         transform.localRotation = Quaternion.Euler(0, yrotation, 0);
     }
 
- 
+
 }

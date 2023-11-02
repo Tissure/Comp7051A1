@@ -87,7 +87,7 @@ public class AI : MonoBehaviour
     {
         Agent.enabled = true;
         Agent.isStopped = false;
-        WaitForSeconds Wait = new WaitForSeconds(0);
+        WaitForSeconds Wait = new WaitForSeconds(WaitDelay);
         while (true)
         {
             int index = Random.Range(1, Triangulation.vertices.Length - 1);

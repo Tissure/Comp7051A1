@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/VsLocalScene.unity
     guid: 3c3c664e69d33754ea89e134d64398e4
+  - enabled: 1
+    path: Assets/Scenes/DesignMaze.unity
+    guid: 32712678a584a6546956d3d9a2bcf25e
   m_configObjects: {}
