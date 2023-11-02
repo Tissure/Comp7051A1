@@ -52,7 +52,7 @@ public partial class @MenuInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""8b045241-a983-43c0-8fdc-bbb2125bfa45"",
-                    ""path"": ""<NimbusGamepadHid>/homeButton"",
+                    ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
