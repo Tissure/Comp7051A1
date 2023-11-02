@@ -10,11 +10,15 @@ public class EndTrigger : MonoBehaviour
 
     [SerializeField]
     public GameObject canvas;
+    private GameObject child;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        canvas = GameObject.Find("Canvas");
+        child = Instantiate(PanelPrefab, canvas.gameObject.transform);
+        child.transform.SetParent(canvas.transform);
+        child.SetActive(false);
     }
 
     // Update is called once per frame
@@ -32,8 +36,9 @@ public class EndTrigger : MonoBehaviour
         {
             // We know for sure the other GameObject is a player, now instantiate the PanelPrefab as a child of Canvas
 
-            GameObject child = Instantiate(PanelPrefab, canvas.gameObject.transform);
-            child.transform.SetParent(canvas.transform);
+            child.SetActive(true);
+            Cursor.lockState = CursorLockMode.Confined;
+            Destroy(gameObject);
 
         }
 

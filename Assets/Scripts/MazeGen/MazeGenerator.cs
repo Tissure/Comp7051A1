@@ -300,8 +300,8 @@ namespace MazeAssignment
             buildNavMesh();
 
             floor[0][0].testPrefab = Instantiate(StartTrigger, floor[0][0].pos, Quaternion.identity);
-            floor[length - 1][length - 1].testPrefab = Instantiate(EndTrigger, floor[length - 1][length - 1].pos, Quaternion.identity);
-            floor[length - 1][length - 1].testPrefab.transform.localScale = new Vector3(scale, scale, scale);
+            floor[length - 1][length - 1].testPrefab = Instantiate(EndTrigger, floor[length - 1][length - 1].pos + Vector3.up, Quaternion.identity);
+            
             Instantiate(AIPrefab, floor[length / 2][length / 2].pos, Quaternion.identity);
 
         }
