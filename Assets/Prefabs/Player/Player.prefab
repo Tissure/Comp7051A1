@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5700760970325546287}
   - component: {fileID: 708169774291555198}
   - component: {fileID: 8878073885324304461}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PlayerCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 1024653875368203535}
   - component: {fileID: 4352992053190396501}
   - component: {fileID: 8409803348414082191}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -121,7 +121,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3414245385964087457}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -216,7 +216,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 5
   mouseSensitivity: 10
+  shootForce: 400
   camera: {fileID: 708169774291555198}
+  ProjectilePrefab: {fileID: 5259403435682273940, guid: 6dd1d5948d5562f42bd61d2f34aa7472, type: 3}
 --- !u!54 &8409803348414082191
 Rigidbody:
   m_ObjectHideFlags: 0

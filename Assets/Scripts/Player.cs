@@ -9,11 +9,14 @@ public class Player : MonoBehaviour
     InputAction movement;
     InputAction cameraMovement;
     InputAction noclip;
+    InputAction shoot;
 
     [SerializeField]
     private float movementSpeed = 10.0f;
     [SerializeField]
     private float mouseSensitivity = 15.0f;
+    [SerializeField]
+    private float shootForce = 400f;
 
     [SerializeField]
     private new Camera camera;
@@ -22,6 +25,9 @@ public class Player : MonoBehaviour
     float xrotation = 0;
     float yrotation = 0;
 
+    [SerializeField]
+    private GameObject ProjectilePrefab;
+
     private Transform movementTransform;
     void Awake()
     {
@@ -29,6 +35,7 @@ public class Player : MonoBehaviour
         movement = inputs.Player.Movement;
         cameraMovement = inputs.Player.Camera;
         noclip = inputs.Player.NoClip;
+        shoot = inputs.Player.Shoot;
         Cursor.lockState = CursorLockMode.Locked;
 
         rb = GetComponent<Rigidbody>();
@@ -42,6 +49,12 @@ public class Player : MonoBehaviour
             rb.useGravity = !enabled;
             rb.velocity = Vector3.zero;
         };
+
+        shoot.performed += context => {
+            Debug.Log("Shootymcshootshoot");
+            GameObject projectile = Instantiate(ProjectilePrefab, camera.transform.position, camera.transform.rotation);
+            projectile.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, shootForce));
+        };
     }
 
     private void OnEnable()
@@ -49,6 +62,7 @@ public class Player : MonoBehaviour
         movement.Enable();
         cameraMovement.Enable();
         noclip.Enable();
+        shoot.Enable();
     }
 
     private void OnDisable()
@@ -56,6 +70,7 @@ public class Player : MonoBehaviour
         movement.Disable();
         cameraMovement.Disable();
         noclip.Disable();
+        shoot.Disable();
     }
 
     private void Update()
@@ -67,8 +82,8 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         Vector2 v2 = movement.ReadValue<Vector2>();
-        rb.MovePosition(transform.position + (movementTransform.forward * v2.y * movementSpeed * Time.deltaTime) 
-            + (movementTransform.right * v2.x * movementSpeed * Time.deltaTime)); 
+        rb.MovePosition(transform.position + (movementTransform.forward * v2.y * movementSpeed * Time.deltaTime)
+            + (movementTransform.right * v2.x * movementSpeed * Time.deltaTime));
     }
 
     void RotateCamera()
