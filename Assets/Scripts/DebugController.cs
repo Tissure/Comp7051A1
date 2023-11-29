@@ -22,7 +22,7 @@ public class DebugController : MonoBehaviour
         });
 
         RESET_ROUND = new DebugCommand("reset_round", "Resets the round", "reset_round", () => {
-            GameManager.Instance.RestartLevel();
+            PongGameManager.Instance.RestartLevel();
         });
 
         commandList = new List<object> { 

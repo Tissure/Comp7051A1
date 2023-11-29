@@ -16,6 +16,6 @@ public class PointDisplay : MonoBehaviour
 
     public void UpdateScore()
     {
-        text.text = GameManager.Instance.getPointL().ToString() + "    " + GameManager.Instance.getPointR().ToString();
+        text.text = PongGameManager.Instance.getPointL().ToString() + "    " + PongGameManager.Instance.getPointR().ToString();
     }
 }

@@ -18,6 +18,8 @@ public class Projectile : MonoBehaviour
         if (collision.gameObject.CompareTag("AI"))
         {
             Debug.Log("Projectile Hit: AI");
+            MazeGameManager.Instance.IncrementScore();
+            collision.gameObject.GetComponent<AI>().Damage();
         }
         audioSource.Play();
     }

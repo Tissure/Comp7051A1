@@ -5,14 +5,14 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class PongGameManager : MonoBehaviour
 {
 
     private int PointL = 0;
     private int PointR = 0;
 
-    private static GameManager _instance;
-    public static GameManager Instance { get { return _instance; } }
+    private static PongGameManager _instance;
+    public static PongGameManager Instance { get { return _instance; } }
     [SerializeField]
     private GameObject P1;
     [SerializeField]
@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     public float _speed = 3.0f;
 
-    // Make sure there is only ever one GameManager
+    // Make sure there is only ever one PongGameManager
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);

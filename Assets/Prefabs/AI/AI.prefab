@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5318753837870328752}
   m_Layer: 0
   m_Name: AI
-  m_TagString: Untagged
+  m_TagString: AI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -115,6 +115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WaitDelay: 0
+  health: 5
 --- !u!1001 &5763263561418859227
 PrefabInstance:
   m_ObjectHideFlags: 0

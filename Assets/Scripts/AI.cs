@@ -2,6 +2,7 @@ using UnityEngine.AI;
 using UnityEngine;
 using System.Collections;
 using System.Linq;
+using Unity.VisualScripting;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
@@ -13,6 +14,13 @@ public class AI : MonoBehaviour
     [SerializeField]
     [Range(0f, 3f)]
     private float WaitDelay = 1f;
+
+    [SerializeField]
+    private int defaultHealth = 5;
+    [SerializeField]
+    private int health;
+    [SerializeField]
+    private float respawnTime = 5f;
 
     private Vector2 Velocity;
     private Vector2 SmoothDeltaPosition;
@@ -97,5 +105,29 @@ public class AI : MonoBehaviour
             yield return new WaitUntil(() => Agent.remainingDistance <= Agent.stoppingDistance);
             yield return Wait;
         }
+    }
+
+    public void Damage()
+    {
+        health--;
+        Debug.Log(health);
+        if (health <= 0)
+        {
+            transform.position = new Vector3(0, -10, 0);
+            StopMoving();
+            StartCoroutine(DelayReset());
+        }
+    }
+
+    IEnumerator DelayReset()
+    {
+        yield return new WaitForSeconds(respawnTime);
+        MazeGameManager.Instance.ResetAI();
+    }
+
+    public void ResetAI()
+    {
+        health = defaultHealth;
+        GoToRandomPoint();
     }
 }
