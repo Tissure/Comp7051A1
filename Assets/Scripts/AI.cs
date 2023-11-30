@@ -65,7 +65,7 @@ public class AI : MonoBehaviour
         // Map 'worldDeltaPosition' to local space
         float dx = Vector3.Dot(transform.right, worldDeltaPosition);
         float dy = Vector3.Dot(transform.forward, worldDeltaPosition);
-        Vector2 deltaPosition = new Vector2(dx, dy);
+        Vector2 deltaPosition = new(dx, dy);
 
         // Low-pass filter the deltaMove
         float smooth = Mathf.Min(1, Time.deltaTime / 0.1f);
@@ -77,7 +77,7 @@ public class AI : MonoBehaviour
             Velocity = Vector2.Lerp(Vector2.zero, Velocity, Agent.remainingDistance);
         }
 
-        bool shouldMove = Velocity.magnitude > 0.5f && Agent.remainingDistance > Agent.stoppingDistance;
+        //bool shouldMove = Velocity.magnitude > 0.5f && Agent.remainingDistance > Agent.stoppingDistance;
 
         //Animator.SetBool("move", shouldMove);
         Animator.SetFloat("XMove", Velocity.x);
@@ -95,7 +95,7 @@ public class AI : MonoBehaviour
     {
         Agent.enabled = true;
         Agent.isStopped = false;
-        WaitForSeconds Wait = new WaitForSeconds(WaitDelay);
+        WaitForSeconds Wait = new(WaitDelay);
         while (true)
         {
             int index = Random.Range(1, Triangulation.vertices.Length - 1);

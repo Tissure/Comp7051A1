@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class Player : MonoBehaviour
     InputAction cameraMovement;
     InputAction noclip;
     InputAction shoot;
+    InputAction pause;
 
     [SerializeField]
     private float movementSpeed = 10.0f;
@@ -36,6 +38,7 @@ public class Player : MonoBehaviour
         cameraMovement = inputs.Player.Camera;
         noclip = inputs.Player.NoClip;
         shoot = inputs.Player.Shoot;
+        pause = inputs.Player.PauseGame;
         Cursor.lockState = CursorLockMode.Locked;
 
         rb = GetComponent<Rigidbody>();
@@ -55,6 +58,10 @@ public class Player : MonoBehaviour
             GameObject projectile = Instantiate(ProjectilePrefab, camera.transform.position, camera.transform.rotation);
             projectile.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, shootForce));
         };
+
+        pause.performed += context => {
+            MazeGameManager.Instance.TogglePause();
+        };
     }
 
     private void OnEnable()
@@ -63,6 +70,7 @@ public class Player : MonoBehaviour
         cameraMovement.Enable();
         noclip.Enable();
         shoot.Enable();
+        pause.Enable();
     }
 
     private void OnDisable()
@@ -71,6 +79,7 @@ public class Player : MonoBehaviour
         cameraMovement.Disable();
         noclip.Disable();
         shoot.Disable();
+        pause.Disable();
     }
 
     private void Update()
@@ -86,6 +95,14 @@ public class Player : MonoBehaviour
             + (movementTransform.right * v2.x * movementSpeed * Time.deltaTime));
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("AI"))
+        {
+            killPlayer();
+        }
+    }
+
     void RotateCamera()
     {
         Vector2 mousemovement = cameraMovement.ReadValue<Vector2>();
@@ -97,5 +114,10 @@ public class Player : MonoBehaviour
         transform.localRotation = Quaternion.Euler(0, yrotation, 0);
     }
 
+    void killPlayer()
+    {
+        Debug.Log("Dies");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 
 }
