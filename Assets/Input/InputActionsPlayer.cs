@@ -53,6 +53,24 @@ public partial class @InputActionsPlayer: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Shoot"",
+                    ""type"": ""Value"",
+                    ""id"": ""4c1f9c4c-fe9c-4323-ae26-5836e34e13bc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""PauseGame"",
+                    ""type"": ""Value"",
+                    ""id"": ""c0e64cce-813d-47c1-aff8-825c15874085"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -242,6 +260,39 @@ public partial class @InputActionsPlayer: IInputActionCollection2, IDisposable
                     ""action"": ""NoClip"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a863f8ef-c571-4373-b881-7e5df919f194"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cd2bc0b4-1fd3-461e-bc6c-3e9b9090da14"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0401b26b-3781-4439-833f-7a20dcf2870c"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -253,6 +304,8 @@ public partial class @InputActionsPlayer: IInputActionCollection2, IDisposable
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Camera = m_Player.FindAction("Camera", throwIfNotFound: true);
         m_Player_NoClip = m_Player.FindAction("NoClip", throwIfNotFound: true);
+        m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
+        m_Player_PauseGame = m_Player.FindAction("PauseGame", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -317,6 +370,8 @@ public partial class @InputActionsPlayer: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_Camera;
     private readonly InputAction m_Player_NoClip;
+    private readonly InputAction m_Player_Shoot;
+    private readonly InputAction m_Player_PauseGame;
     public struct PlayerActions
     {
         private @InputActionsPlayer m_Wrapper;
@@ -324,6 +379,8 @@ public partial class @InputActionsPlayer: IInputActionCollection2, IDisposable
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputAction @Camera => m_Wrapper.m_Player_Camera;
         public InputAction @NoClip => m_Wrapper.m_Player_NoClip;
+        public InputAction @Shoot => m_Wrapper.m_Player_Shoot;
+        public InputAction @PauseGame => m_Wrapper.m_Player_PauseGame;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -342,6 +399,12 @@ public partial class @InputActionsPlayer: IInputActionCollection2, IDisposable
             @NoClip.started += instance.OnNoClip;
             @NoClip.performed += instance.OnNoClip;
             @NoClip.canceled += instance.OnNoClip;
+            @Shoot.started += instance.OnShoot;
+            @Shoot.performed += instance.OnShoot;
+            @Shoot.canceled += instance.OnShoot;
+            @PauseGame.started += instance.OnPauseGame;
+            @PauseGame.performed += instance.OnPauseGame;
+            @PauseGame.canceled += instance.OnPauseGame;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -355,6 +418,12 @@ public partial class @InputActionsPlayer: IInputActionCollection2, IDisposable
             @NoClip.started -= instance.OnNoClip;
             @NoClip.performed -= instance.OnNoClip;
             @NoClip.canceled -= instance.OnNoClip;
+            @Shoot.started -= instance.OnShoot;
+            @Shoot.performed -= instance.OnShoot;
+            @Shoot.canceled -= instance.OnShoot;
+            @PauseGame.started -= instance.OnPauseGame;
+            @PauseGame.performed -= instance.OnPauseGame;
+            @PauseGame.canceled -= instance.OnPauseGame;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -377,5 +446,7 @@ public partial class @InputActionsPlayer: IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnCamera(InputAction.CallbackContext context);
         void OnNoClip(InputAction.CallbackContext context);
+        void OnShoot(InputAction.CallbackContext context);
+        void OnPauseGame(InputAction.CallbackContext context);
     }
 }

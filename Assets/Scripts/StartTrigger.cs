@@ -13,12 +13,6 @@ public class StartTrigger : MonoBehaviour
     {
         // Beginning of the game, instantiate playerPrefab
         // at this.gameObject.transform.position, transform.rotation
-        Instantiate(playerPrefab, transform.position, transform.rotation );
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        MazeGameManager.Instance.SetPlayer(Instantiate(playerPrefab, transform.position, transform.rotation).GetComponent<Player>());
     }
 }

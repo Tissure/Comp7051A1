@@ -2,6 +2,7 @@ using UnityEngine.AI;
 using UnityEngine;
 using System.Collections;
 using System.Linq;
+using Unity.VisualScripting;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
@@ -11,8 +12,17 @@ public class AI : MonoBehaviour
     private NavMeshAgent Agent;
     private Animator Animator;
     [SerializeField]
+    AISFX audioSource;
+    [SerializeField]
     [Range(0f, 3f)]
     private float WaitDelay = 1f;
+
+    [SerializeField]
+    private int defaultHealth = 5;
+    [SerializeField]
+    private int health;
+    [SerializeField]
+    private float respawnTime = 5f;
 
     private Vector2 Velocity;
     private Vector2 SmoothDeltaPosition;
@@ -57,7 +67,7 @@ public class AI : MonoBehaviour
         // Map 'worldDeltaPosition' to local space
         float dx = Vector3.Dot(transform.right, worldDeltaPosition);
         float dy = Vector3.Dot(transform.forward, worldDeltaPosition);
-        Vector2 deltaPosition = new Vector2(dx, dy);
+        Vector2 deltaPosition = new(dx, dy);
 
         // Low-pass filter the deltaMove
         float smooth = Mathf.Min(1, Time.deltaTime / 0.1f);
@@ -69,7 +79,7 @@ public class AI : MonoBehaviour
             Velocity = Vector2.Lerp(Vector2.zero, Velocity, Agent.remainingDistance);
         }
 
-        bool shouldMove = Velocity.magnitude > 0.5f && Agent.remainingDistance > Agent.stoppingDistance;
+        //bool shouldMove = Velocity.magnitude > 0.5f && Agent.remainingDistance > Agent.stoppingDistance;
 
         //Animator.SetBool("move", shouldMove);
         Animator.SetFloat("XMove", Velocity.x);
@@ -87,7 +97,7 @@ public class AI : MonoBehaviour
     {
         Agent.enabled = true;
         Agent.isStopped = false;
-        WaitForSeconds Wait = new WaitForSeconds(WaitDelay);
+        WaitForSeconds Wait = new(WaitDelay);
         while (true)
         {
             int index = Random.Range(1, Triangulation.vertices.Length - 1);
@@ -97,5 +107,31 @@ public class AI : MonoBehaviour
             yield return new WaitUntil(() => Agent.remainingDistance <= Agent.stoppingDistance);
             yield return Wait;
         }
+    }
+
+    public void Damage()
+    {
+        health--;
+        Debug.Log(health);
+        if (health <= 0)
+        {
+            transform.position = new Vector3(0, -10, 0);
+            audioSource.PlayDie();
+            StopMoving();
+            StartCoroutine(DelayReset());
+        }
+    }
+
+    IEnumerator DelayReset()
+    {
+        yield return new WaitForSeconds(respawnTime);
+        MazeGameManager.Instance.ResetAI();
+    }
+
+    public void ResetAI()
+    {
+        health = defaultHealth;
+        audioSource.PlayRespawn();
+        GoToRandomPoint();
     }
 }

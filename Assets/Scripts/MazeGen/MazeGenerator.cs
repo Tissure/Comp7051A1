@@ -152,7 +152,7 @@ namespace MazeAssignment
                     if (x % 2 != 0 && z % 2 != 0)
                     {
                         map[x][z].initMapPointer(x, z);
-                        tempList.Add((Point) map[x][z]);
+                        tempList.Add((Point)map[x][z]);
                         count++;
                     }
                 }
@@ -301,8 +301,9 @@ namespace MazeAssignment
 
             floor[0][0].testPrefab = Instantiate(StartTrigger, floor[0][0].pos, Quaternion.identity);
             floor[length - 1][length - 1].testPrefab = Instantiate(EndTrigger, floor[length - 1][length - 1].pos + Vector3.up, Quaternion.identity);
-            
-            Instantiate(AIPrefab, floor[length / 2][length / 2].pos, Quaternion.identity);
+
+            MazeGameManager.Instance.SetFloor(floor);
+            MazeGameManager.Instance.SetAI(Instantiate(AIPrefab, floor[length / 2][length / 2].pos, Quaternion.identity).GetComponent<AI>());
 
         }
 
@@ -510,7 +511,8 @@ namespace MazeAssignment
                 if (((Surface.layerMask & (1 << modifiers[i].gameObject.layer)) == 1)
                     && modifiers[i].AffectsAgentType(Surface.agentTypeID))
                 {
-                    markups.Add(new NavMeshBuildMarkup() {
+                    markups.Add(new NavMeshBuildMarkup()
+                    {
                         root = modifiers[i].transform,
                         overrideArea = modifiers[i].overrideArea,
                         area = modifiers[i].area,

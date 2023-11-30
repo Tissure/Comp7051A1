@@ -27,9 +27,9 @@ public class CollisionVolume : MonoBehaviour
             - Reset Round
         */
 
-        GameManager.Instance.AddPoint((int)other.transform.position.x);
-        GameManager.Instance.PrintPoints();
-        GameManager.Instance.RestartLevel();
+        PongGameManager.Instance.AddPoint((int)other.transform.position.x);
+        PongGameManager.Instance.PrintPoints();
+        PongGameManager.Instance.RestartLevel();
     }
 
 }

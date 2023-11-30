@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5113641019877496425}
   - component: {fileID: 2370424707629566727}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: PongGameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,3 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60ed0d4ada28b7b419bd705fdb3be70b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  P1: {fileID: 0}
+  P2: {fileID: 0}
+  Ball: {fileID: 0}
+  PointDisplay: {fileID: 0}
+  paddleInitPos: -5.5
+  _speed: 3

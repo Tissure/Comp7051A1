@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -9,11 +10,17 @@ public class Player : MonoBehaviour
     InputAction movement;
     InputAction cameraMovement;
     InputAction noclip;
+    InputAction shoot;
+    InputAction pause;
+
+    PlayerSFX playerSFX;
 
     [SerializeField]
     private float movementSpeed = 10.0f;
     [SerializeField]
     private float mouseSensitivity = 15.0f;
+    [SerializeField]
+    private float shootForce = 400f;
 
     [SerializeField]
     private new Camera camera;
@@ -22,6 +29,9 @@ public class Player : MonoBehaviour
     float xrotation = 0;
     float yrotation = 0;
 
+    [SerializeField]
+    private GameObject ProjectilePrefab;
+
     private Transform movementTransform;
     void Awake()
     {
@@ -29,7 +39,11 @@ public class Player : MonoBehaviour
         movement = inputs.Player.Movement;
         cameraMovement = inputs.Player.Camera;
         noclip = inputs.Player.NoClip;
+        shoot = inputs.Player.Shoot;
+        pause = inputs.Player.PauseGame;
         Cursor.lockState = CursorLockMode.Locked;
+
+        playerSFX = GetComponent<PlayerSFX>();
 
         rb = GetComponent<Rigidbody>();
         collider = GetComponent<Collider>();
@@ -42,6 +56,16 @@ public class Player : MonoBehaviour
             rb.useGravity = !enabled;
             rb.velocity = Vector3.zero;
         };
+
+        shoot.performed += context => {
+            Debug.Log("Shootymcshootshoot");
+            GameObject projectile = Instantiate(ProjectilePrefab, camera.transform.position, camera.transform.rotation);
+            projectile.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, shootForce));
+        };
+
+        pause.performed += context => {
+            MazeGameManager.Instance.TogglePause();
+        };
     }
 
     private void OnEnable()
@@ -49,6 +73,8 @@ public class Player : MonoBehaviour
         movement.Enable();
         cameraMovement.Enable();
         noclip.Enable();
+        shoot.Enable();
+        pause.Enable();
     }
 
     private void OnDisable()
@@ -56,19 +82,38 @@ public class Player : MonoBehaviour
         movement.Disable();
         cameraMovement.Disable();
         noclip.Disable();
+        shoot.Disable();
+        pause.Disable();
     }
 
     private void Update()
     {
         RotateCamera();
-
     }
 
     private void FixedUpdate()
     {
         Vector2 v2 = movement.ReadValue<Vector2>();
-        rb.MovePosition(transform.position + (movementTransform.forward * v2.y * movementSpeed * Time.deltaTime) 
-            + (movementTransform.right * v2.x * movementSpeed * Time.deltaTime)); 
+        if (v2 == Vector2.zero)
+        {
+            playerSFX.StopWalk();
+            return;
+        }
+        rb.MovePosition(transform.position + (movementTransform.forward * v2.y * movementSpeed * Time.deltaTime)
+                + (movementTransform.right * v2.x * movementSpeed * Time.deltaTime));
+        playerSFX.PlayWalk();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("AI"))
+        {
+            killPlayer();
+        }
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            playerSFX.PlayHitWall();
+        }
     }
 
     void RotateCamera()
@@ -82,5 +127,10 @@ public class Player : MonoBehaviour
         transform.localRotation = Quaternion.Euler(0, yrotation, 0);
     }
 
+    void killPlayer()
+    {
+        Debug.Log("Dies");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 
 }
