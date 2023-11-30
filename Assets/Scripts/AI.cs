@@ -12,6 +12,8 @@ public class AI : MonoBehaviour
     private NavMeshAgent Agent;
     private Animator Animator;
     [SerializeField]
+    AISFX audioSource;
+    [SerializeField]
     [Range(0f, 3f)]
     private float WaitDelay = 1f;
 
@@ -114,6 +116,7 @@ public class AI : MonoBehaviour
         if (health <= 0)
         {
             transform.position = new Vector3(0, -10, 0);
+            audioSource.PlayDie();
             StopMoving();
             StartCoroutine(DelayReset());
         }
@@ -128,6 +131,7 @@ public class AI : MonoBehaviour
     public void ResetAI()
     {
         health = defaultHealth;
+        audioSource.PlayRespawn();
         GoToRandomPoint();
     }
 }

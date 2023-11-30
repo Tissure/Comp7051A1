@@ -19,7 +19,8 @@ public class MazeGameManager : MonoBehaviour
 
     [SerializeField]
     private GameState _gameState = GameState.Maze;
-
+    [SerializeField]
+    private AudioSource audioBGM;
     [SerializeField]
     private HudUI HUD;
     [SerializeField]
@@ -40,6 +41,12 @@ public class MazeGameManager : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        float dist = Vector3.Distance(player.transform.position, _ai.transform.position);
+        SetMusicVolume(dist);
+    }
+
 
     public void SaveGame()
     {
@@ -50,6 +57,12 @@ public class MazeGameManager : MonoBehaviour
     {
 
     }
+
+    public void SetMusicVolume(float volume)
+    {
+        audioBGM.volume = volume;
+    }
+
     public void SetPlayer(Player p)
     {
         player = p;
