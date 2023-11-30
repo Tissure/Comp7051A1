@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     InputAction shoot;
     InputAction pause;
 
+    PlayerSFX playerSFX;
+
     [SerializeField]
     private float movementSpeed = 10.0f;
     [SerializeField]
@@ -40,6 +42,8 @@ public class Player : MonoBehaviour
         shoot = inputs.Player.Shoot;
         pause = inputs.Player.PauseGame;
         Cursor.lockState = CursorLockMode.Locked;
+
+        playerSFX = GetComponent<PlayerSFX>();
 
         rb = GetComponent<Rigidbody>();
         collider = GetComponent<Collider>();
@@ -85,14 +89,19 @@ public class Player : MonoBehaviour
     private void Update()
     {
         RotateCamera();
-
     }
 
     private void FixedUpdate()
     {
         Vector2 v2 = movement.ReadValue<Vector2>();
+        if (v2 == Vector2.zero)
+        {
+            playerSFX.StopWalk();
+            return;
+        }
         rb.MovePosition(transform.position + (movementTransform.forward * v2.y * movementSpeed * Time.deltaTime)
-            + (movementTransform.right * v2.x * movementSpeed * Time.deltaTime));
+                + (movementTransform.right * v2.x * movementSpeed * Time.deltaTime));
+        playerSFX.PlayWalk();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -100,6 +109,10 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("AI"))
         {
             killPlayer();
+        }
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            playerSFX.PlayHitWall();
         }
     }
 

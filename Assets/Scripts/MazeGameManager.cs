@@ -21,12 +21,14 @@ public class MazeGameManager : MonoBehaviour
     private GameState _gameState = GameState.Maze;
 
     [SerializeField]
+    private HudUI HUD;
+    [SerializeField]
     private GameObject pauseMenu;
 
     // Make sure there is only ever one MazeGameManager
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
         if (_instance != null && _instance != this)
         {
             Destroy(this.gameObject);
@@ -38,6 +40,16 @@ public class MazeGameManager : MonoBehaviour
 
     }
 
+
+    public void SaveGame()
+    {
+
+    }
+
+    public void LoadGame()
+    {
+
+    }
     public void SetPlayer(Player p)
     {
         player = p;
@@ -61,6 +73,7 @@ public class MazeGameManager : MonoBehaviour
     public void IncrementScore()
     {
         score++;
+        HUD.UpdateScore(score);
     }
 
     public void ResetAI()

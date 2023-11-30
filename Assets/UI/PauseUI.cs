@@ -15,7 +15,7 @@ public class PauseUI : MonoBehaviour
     //Add logic that interacts with the UI controls in the `OnEnable` methods
     private void Awake()
     {
-        DontDestroyOnLoad(this);
+        //DontDestroyOnLoad(this);
     }
     private void OnEnable()
     {
@@ -31,7 +31,7 @@ public class PauseUI : MonoBehaviour
         _buttonReturn = uiDocument.rootVisualElement.Q("buttonReturn") as Button;
         _buttonReturn.RegisterCallback<ClickEvent>(Return);
 
-        MazeGameManager.Instance.SetPauseMenu(gameObject);
+        //MazeGameManager.Instance.SetPauseMenu(gameObject);
 
     }
 
