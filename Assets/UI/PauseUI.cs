@@ -50,6 +50,7 @@ public class PauseUI : MonoBehaviour
     void Save(ClickEvent evt)
     {
         Debug.Log("save");
+        MazeGameManager.Instance.SaveGame();
     }
     void Return(ClickEvent evt)
     {

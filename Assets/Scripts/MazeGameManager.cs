@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class MazeGameManager : MonoBehaviour
+public class MazeGameManager : MonoBehaviour, ISaveable
 {
     private static MazeGameManager _instance;
     public static MazeGameManager Instance { get { return _instance; } }
@@ -17,6 +17,8 @@ public class MazeGameManager : MonoBehaviour
     private AI _ai;
     private List<List<Point>> maze;
 
+    [SerializeField]
+    private MazeGenerator mazeGenerator;
     [SerializeField]
     private GameState _gameState = GameState.Maze;
     [SerializeField]
@@ -38,7 +40,7 @@ public class MazeGameManager : MonoBehaviour
         {
             _instance = this;
         }
-
+        NewGame();
     }
 
     private void Update()
@@ -47,15 +49,20 @@ public class MazeGameManager : MonoBehaviour
         SetMusicVolume(dist);
     }
 
-
+    public void NewGame()
+    {
+        mazeGenerator.GenerateMaze();
+        SetPlayer(maze[0][0].pos);
+        SetAI(maze[maze.Count / 2][maze.Count / 2].pos);
+    }
     public void SaveGame()
     {
-
+        SaveDataManager.SaveJsonData(new ISaveable[] { this, _ai, player });
     }
 
     public void LoadGame()
     {
-
+        SaveDataManager.LoadJsonData(new ISaveable[] { this, _ai, player });
     }
 
     public void SetMusicVolume(float volume)
@@ -63,9 +70,9 @@ public class MazeGameManager : MonoBehaviour
         audioBGM.volume = volume;
     }
 
-    public void SetPlayer(Player p)
+    public void SetPlayer(Vector3 p)
     {
-        player = p;
+        player.transform.position = p;
     }
 
     public void SetFloor(List<List<Point>> floor)
@@ -73,9 +80,10 @@ public class MazeGameManager : MonoBehaviour
         maze = floor;
     }
 
-    public void SetAI(AI ai)
+    public void SetAI(Vector3 ai)
     {
-        _ai = ai;
+        _ai.transform.position = ai;
+        _ai.gameObject.SetActive(true);
     }
 
     public void SetPauseMenu(GameObject menu)
@@ -147,5 +155,16 @@ public class MazeGameManager : MonoBehaviour
         Time.timeScale = 1f;
         pauseMenu.SetActive(false);
         UnityEngine.Cursor.lockState = CursorLockMode.Confined;
+    }
+
+    public void PopulateSaveData(SaveData a_SaveData)
+    {
+        a_SaveData.state = Random.state;
+
+    }
+
+    public void LoadFromSaveData(SaveData a_SaveData)
+    {
+        throw new System.NotImplementedException();
     }
 }

@@ -13,6 +13,6 @@ public class StartTrigger : MonoBehaviour
     {
         // Beginning of the game, instantiate playerPrefab
         // at this.gameObject.transform.position, transform.rotation
-        MazeGameManager.Instance.SetPlayer(Instantiate(playerPrefab, transform.position, transform.rotation).GetComponent<Player>());
+        //MazeGameManager.Instance.SetPlayer(Instantiate(playerPrefab, transform.position, transform.rotation).GetComponent<Player>());
     }
 }

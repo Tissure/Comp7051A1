@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
-public class AI : MonoBehaviour
+public class AI : MonoBehaviour, ISaveable
 {
     private NavMeshTriangulation Triangulation;
     private NavMeshAgent Agent;
@@ -113,6 +113,10 @@ public class AI : MonoBehaviour
     {
         health--;
         Debug.Log(health);
+        CheckHealth();
+    }
+    private void CheckHealth()
+    {
         if (health <= 0)
         {
             transform.position = new Vector3(0, -10, 0);
@@ -121,7 +125,6 @@ public class AI : MonoBehaviour
             StartCoroutine(DelayReset());
         }
     }
-
     IEnumerator DelayReset()
     {
         yield return new WaitForSeconds(respawnTime);
@@ -133,5 +136,18 @@ public class AI : MonoBehaviour
         health = defaultHealth;
         audioSource.PlayRespawn();
         GoToRandomPoint();
+    }
+
+    public void PopulateSaveData(SaveData a_SaveData)
+    {
+        a_SaveData.m_AIData.pos = transform.position;
+        a_SaveData.m_AIData.m_Health = health;
+    }
+
+    public void LoadFromSaveData(SaveData a_SaveData)
+    {
+        transform.position = a_SaveData.m_AIData.pos;
+        health = a_SaveData.m_AIData.m_Health;
+        CheckHealth();
     }
 }

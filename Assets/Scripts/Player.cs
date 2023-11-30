@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, ISaveable
 {
     InputActionsPlayer inputs;
     InputAction movement;
@@ -133,4 +133,13 @@ public class Player : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    public void PopulateSaveData(SaveData a_SaveData)
+    {
+        a_SaveData.m_PlayerData.pos = transform.position;
+    }
+
+    public void LoadFromSaveData(SaveData a_SaveData)
+    {
+        transform.position = a_SaveData.m_PlayerData.pos;
+    }
 }
