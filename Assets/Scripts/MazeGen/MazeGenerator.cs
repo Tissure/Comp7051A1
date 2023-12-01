@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
 using UnityEngine;
@@ -40,8 +38,8 @@ namespace MazeAssignment
 
         int floorCount;
 
-        // Start is called before the first frame update
-        void Start()
+        // Generates Maze per MazeGameManager
+        public void GenerateMaze()
         {
             generateMap();
 
@@ -299,11 +297,12 @@ namespace MazeAssignment
             destroyFloors();
             buildNavMesh();
 
-            floor[0][0].testPrefab = Instantiate(StartTrigger, floor[0][0].pos, Quaternion.identity);
+            //floor[0][0].testPrefab = Instantiate(StartTrigger, floor[0][0].pos, Quaternion.identity);
+            //PlayerRef.transform.pos = floor[0][0].pos;
+
             floor[length - 1][length - 1].testPrefab = Instantiate(EndTrigger, floor[length - 1][length - 1].pos + Vector3.up, Quaternion.identity);
 
             MazeGameManager.Instance.SetFloor(floor);
-            MazeGameManager.Instance.SetAI(Instantiate(AIPrefab, floor[length / 2][length / 2].pos, Quaternion.identity).GetComponent<AI>());
 
         }
 

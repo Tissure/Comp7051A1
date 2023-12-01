@@ -2,6 +2,7 @@
     <Style src="project://database/Assets/UI/mainmenu.uss?fileID=7433441132597879392&amp;guid=10393d77927bf6944ba8b6136ef918a9&amp;type=3#mainmenu" />
     <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); justify-content: center; align-items: stretch; align-self: center; padding-left: 6px; padding-right: 6px; padding-top: 6px; padding-bottom: 6px;">
         <ui:Button text="Start Game" display-tooltip-when-elided="true" name="buttonMaze" />
+        <ui:Button text="Load Game" display-tooltip-when-elided="true" name="buttonLoad" />
         <ui:Button text="Exit Game" display-tooltip-when-elided="true" name="buttonExit" />
     </ui:VisualElement>
 </ui:UXML>
