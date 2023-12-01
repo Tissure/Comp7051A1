@@ -17,7 +17,7 @@ public static class SaveDataManager
         }
     }
 
-    public static void LoadJsonData(IEnumerable<ISaveable> a_Saveables)
+    public static bool LoadJsonData(IEnumerable<ISaveable> a_Saveables)
     {
         if (FileManager.LoadFromFile("SaveData01.dat", out var json))
         {
@@ -30,6 +30,8 @@ public static class SaveDataManager
             }
 
             Debug.Log("Load complete");
+            return true;
         }
+        return false;
     }
 }

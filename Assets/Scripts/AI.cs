@@ -121,7 +121,8 @@ public class AI : MonoBehaviour, ISaveable
         {
             transform.position = new Vector3(0, -10, 0);
             audioSource.PlayDie();
-            StopMoving();
+            if (Agent != null)
+                StopMoving();
             StartCoroutine(DelayReset());
         }
     }
@@ -133,6 +134,8 @@ public class AI : MonoBehaviour, ISaveable
 
     public void ResetAI()
     {
+        gameObject.SetActive(false);
+        gameObject.SetActive(true);
         health = defaultHealth;
         audioSource.PlayRespawn();
         GoToRandomPoint();
@@ -148,6 +151,7 @@ public class AI : MonoBehaviour, ISaveable
     {
         transform.position = a_SaveData.m_AIData.pos;
         health = a_SaveData.m_AIData.m_Health;
+        gameObject.SetActive(true);
         CheckHealth();
     }
 }

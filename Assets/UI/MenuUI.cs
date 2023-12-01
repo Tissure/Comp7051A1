@@ -37,13 +37,14 @@ public class MenuUI : MonoBehaviour
     private void StartMaze(ClickEvent evt)
     {
         Button button = evt.currentTarget as Button;
-        //Debug.Log("Button was clicked! " + button.name);
+        GameManager.Instance.IsLoadSave = false;
         SceneManager.LoadScene(sceneName: "DesignMaze");
     }
 
     private void LoadMaze(ClickEvent evt)
     {
         Button button = evt.currentTarget as Button;
+        GameManager.Instance.IsLoadSave = true;
         SceneManager.LoadScene(sceneName: "DesignMaze");
     }
 

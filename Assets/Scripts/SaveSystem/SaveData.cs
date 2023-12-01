@@ -17,7 +17,7 @@ public class SaveData
         public Vector3 pos;
     }
 
-    public Random.State state;
+    public int seed;
     public int m_Score;
     public AIData m_AIData = new AIData();
     public PlayerData m_PlayerData = new PlayerData();

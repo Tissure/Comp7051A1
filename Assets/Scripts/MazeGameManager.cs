@@ -16,6 +16,7 @@ public class MazeGameManager : MonoBehaviour, ISaveable
     [SerializeField]
     private AI _ai;
     private List<List<Point>> maze;
+    private int seed;
 
     [SerializeField]
     private MazeGenerator mazeGenerator;
@@ -40,7 +41,16 @@ public class MazeGameManager : MonoBehaviour, ISaveable
         {
             _instance = this;
         }
-        NewGame();
+        if (GameManager.Instance.IsLoadSave)
+        {
+            LoadGame();
+        }
+        else
+        {
+            NewGame();
+        }
+        GameManager.Instance.IsLoadSave = false;
+
     }
 
     private void Update()
@@ -51,6 +61,8 @@ public class MazeGameManager : MonoBehaviour, ISaveable
 
     public void NewGame()
     {
+        seed = Random.Range(0,99999);
+        Random.InitState(seed);
         mazeGenerator.GenerateMaze();
         SetPlayer(maze[0][0].pos);
         SetAI(maze[maze.Count / 2][maze.Count / 2].pos);
@@ -62,7 +74,16 @@ public class MazeGameManager : MonoBehaviour, ISaveable
 
     public void LoadGame()
     {
-        SaveDataManager.LoadJsonData(new ISaveable[] { this, _ai, player });
+        if (SaveDataManager.LoadJsonData(new ISaveable[] { this, _ai, player }))
+        {
+
+            mazeGenerator.GenerateMaze();
+
+        }
+        else
+        {
+            NewGame();
+        }
     }
 
     public void SetMusicVolume(float volume)
@@ -91,6 +112,12 @@ public class MazeGameManager : MonoBehaviour, ISaveable
         pauseMenu = menu;
     }
 
+    public void SetScore(int s)
+    {
+        score = s;
+        HUD.UpdateScore(score);
+    }
+
     public void IncrementScore()
     {
         score++;
@@ -99,7 +126,7 @@ public class MazeGameManager : MonoBehaviour, ISaveable
 
     public void ResetAI()
     {
-        _ai.transform.position = maze[(int)(Random.value * maze.Count)][(int)(Random.value * maze.Count)].pos;
+        _ai.transform.position = maze[(int) (Random.value * maze.Count)][(int) (Random.value * maze.Count)].pos;
         _ai.ResetAI();
     }
 
@@ -159,12 +186,15 @@ public class MazeGameManager : MonoBehaviour, ISaveable
 
     public void PopulateSaveData(SaveData a_SaveData)
     {
-        a_SaveData.state = Random.state;
+        a_SaveData.m_Score = score;
+        a_SaveData.seed = seed;
 
     }
 
     public void LoadFromSaveData(SaveData a_SaveData)
     {
-        throw new System.NotImplementedException();
+        SetScore(a_SaveData.m_Score);
+        seed = a_SaveData.seed;
+        Random.InitState(seed);
     }
 }
