@@ -60,6 +60,8 @@ public class ShaderManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //if (MazeGameManager.Instance.getAudio() != null)
+        //    Debug.Log("CURRENT VOLUME: " + MazeGameManager.Instance.getAudio().volume);
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
             _Camera.GetComponent<CameraShaderApplicator>().wipeImageEffect();
@@ -69,8 +71,10 @@ public class ShaderManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             _Camera.GetComponent<CameraShaderApplicator>().setImageEffect(_FogShader);
+            Debug.Log(MazeGameManager.Instance.getAudio());
             if (MazeGameManager.Instance.getAudio() != null && MazeGameManager.Instance.getAudio().isPlaying)
             {
+                //MazeGameManager.Instance.getAudio().Stop();
                 MazeGameManager.Instance.SetMusicVolume(0.25f);
             }
         }
