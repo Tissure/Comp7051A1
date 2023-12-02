@@ -88,7 +88,17 @@ public class MazeGameManager : MonoBehaviour, ISaveable
 
     public void SetMusicVolume(float volume)
     {
-        audioBGM.volume = volume;
+        audioBGM.GetComponent<AudioSource>().volume = volume;
+    }
+
+    public void ChangeMusic(AudioSource inAudioSource)
+    {
+        audioBGM = inAudioSource;
+    }
+
+    public AudioSource getAudio()
+    {
+        return audioBGM;
     }
 
     public void SetPlayer(Vector3 p)

@@ -57,6 +57,7 @@ public class PongGameManager : MonoBehaviour
             PointL += 1;
         }
         PointDisplay.UpdateScore();
+        checkWinCon();
     }
 
     // Reset the Level
@@ -101,6 +102,12 @@ public class PongGameManager : MonoBehaviour
         return new Vector3(Mathf.Sin(angle) * _speed, 0, Mathf.Cos(angle) * _speed);
     }
 
-
+    public void checkWinCon()
+    {
+        if(PointL >= 2 || PointR >= 2)
+        {
+            SceneManager.LoadScene("DesignMaze");
+        }
+    }
 
 }
