@@ -11,7 +11,7 @@ Shader"Custom/FogShader"{
     Properties{
         _FogColor ("Fog Color", Color) = (1,1,1,1)
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
-
+        _FogStrength ("Fog Strength", Range(0,1)) = 0.75
     }
     SubShader
     {
@@ -24,6 +24,7 @@ Shader"Custom/FogShader"{
 
             sampler2D _MainTex, _CameraDepthTexture;
             float4 _FogColor;
+            float _FogStrength;
 
             struct appdata
             {
@@ -52,7 +53,7 @@ Shader"Custom/FogShader"{
             {
                 float depth = UNITY_SAMPLE_DEPTH(tex2D(_CameraDepthTexture, i.uv));
                 depth = Linear01Depth(depth);
-                depth = pow(Linear01Depth(depth), 0.75);
+                depth = pow(Linear01Depth(depth), _FogStrength);
 
                 // Calculate the Distance from point in World Space to Camera
                 //float dist = distance(_WorldSpaceCameraPos, i.position);
