@@ -26,6 +26,9 @@ namespace MazeAssignment
         [SerializeField]
         GameObject AIPrefab;
 
+        [SerializeField]
+        GameObject _PongTrigger;
+
         // Serialized Two Dimensional Map all the Points
         List<List<Point>> map = new List<List<Point>>();
 
@@ -301,6 +304,7 @@ namespace MazeAssignment
             //PlayerRef.transform.pos = floor[0][0].pos;
 
             floor[length - 1][length - 1].testPrefab = Instantiate(EndTrigger, floor[length - 1][length - 1].pos + Vector3.up, Quaternion.identity);
+            floor[length - 1][0].testPrefab = Instantiate(_PongTrigger, floor[length - 1][0].pos + Vector3.up, Quaternion.identity);
 
             MazeGameManager.Instance.SetFloor(floor);
 

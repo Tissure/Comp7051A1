@@ -751,6 +751,7 @@ MonoBehaviour:
   EndTrigger: {fileID: 6319438537027280411, guid: 549e1c3d445fdc5469e6d46e9d5cb99a, type: 3}
   FloorPrefab: {fileID: 8450729841389665915, guid: 718b627a32804e04e974735ca32bed85, type: 3}
   AIPrefab: {fileID: 1442665616580401227, guid: 67e86b412c004d84bb293b9a58ca899d, type: 3}
+  _PongTrigger: {fileID: 2846094600179172360, guid: 43fdb3c0197533640b94742905e401b8, type: 3}
   Surface: {fileID: 9132076402721283463, guid: 718b627a32804e04e974735ca32bed85, type: 3}
 --- !u!4 &589205649
 Transform:
