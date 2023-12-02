@@ -37,7 +37,7 @@ public class ShaderManager : MonoBehaviour
     // Make sure there is only ever one GameManager
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
         if (_instance != null && _instance != this)
         {
             Destroy(this.gameObject);
@@ -51,12 +51,6 @@ public class ShaderManager : MonoBehaviour
 
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -65,43 +59,20 @@ public class ShaderManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
             _Camera.GetComponent<CameraShaderApplicator>().wipeImageEffect();
-            MazeGameManager.Instance.SetMusicVolume(1.0f);
+            //MazeGameManager.Instance.SetMusicVolume(1.0f);
             MazeGameManager.Instance.getAudio().Stop();
         }
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            _Camera.GetComponent<CameraShaderApplicator>().setImageEffect(_FogShader);
-            Debug.Log(MazeGameManager.Instance.getAudio());
-            if (MazeGameManager.Instance.getAudio() != null && MazeGameManager.Instance.getAudio().isPlaying)
-            {
-                //MazeGameManager.Instance.getAudio().Stop();
-                MazeGameManager.Instance.SetMusicVolume(0.25f);
-            }
+            SetShaderAndMusicEffect(_FogShader, 0.25f);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            if(MazeGameManager.Instance.getAudio() != null && MazeGameManager.Instance.getAudio().isPlaying)
-            {
-                MazeGameManager.Instance.getAudio().Stop();
-            }
-
-            _Camera.GetComponent<CameraShaderApplicator>().setImageEffect(_DayShader);
-            MazeGameManager.Instance.ChangeMusic(_DayMusic);
-            MazeGameManager.Instance.SetMusicVolume(1.0f);
-            MazeGameManager.Instance.getAudio().Play();
-
+            SetShaderAndMusicEffect(_DayShader, _DayMusic, 1.0f);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            if (MazeGameManager.Instance.getAudio() != null && MazeGameManager.Instance.getAudio().isPlaying)
-            {
-                MazeGameManager.Instance.getAudio().Stop();
-            }
-
-            _Camera.GetComponent<CameraShaderApplicator>().setImageEffect(_NightShader);
-            MazeGameManager.Instance.ChangeMusic(_NightMusic);
-            MazeGameManager.Instance.SetMusicVolume(1.0f);
-            MazeGameManager.Instance.getAudio().Play();
+            SetShaderAndMusicEffect(_NightShader, _NightMusic, 1.0f);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
@@ -125,5 +96,23 @@ public class ShaderManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void SetShaderAndMusicEffect(Material shader, float volume)
+    {
+        if (MazeGameManager.Instance.getAudio() != null && MazeGameManager.Instance.getAudio().isPlaying)
+        {
+            MazeGameManager.Instance.getAudio().Stop();
+        }
+
+        _Camera.GetComponent<CameraShaderApplicator>().setImageEffect(shader);
+        MazeGameManager.Instance.SetMusicVolume(volume);
+        MazeGameManager.Instance.getAudio().Play();
+    }
+
+    private void SetShaderAndMusicEffect(Material shader, AudioSource music, float volume)
+    {
+        MazeGameManager.Instance.ChangeMusic(music);
+        SetShaderAndMusicEffect(shader, volume);
     }
 }

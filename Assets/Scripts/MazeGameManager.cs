@@ -94,7 +94,7 @@ public class MazeGameManager : MonoBehaviour, ISaveable
 
     public void ChangeMusic(AudioSource inAudioSource)
     {
-        audioBGM = inAudioSource;
+        audioBGM.clip = inAudioSource.clip;
     }
 
     public AudioSource getAudio()

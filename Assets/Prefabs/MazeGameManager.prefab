@@ -48,7 +48,9 @@ MonoBehaviour:
   score: 0
   player: {fileID: 0}
   _ai: {fileID: 0}
+  mazeGenerator: {fileID: 0}
   _gameState: 1
+  audioBGM: {fileID: -5662242974611009266}
   HUD: {fileID: 0}
   pauseMenu: {fileID: 0}
 --- !u!82 &-5662242974611009266
