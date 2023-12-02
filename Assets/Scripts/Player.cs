@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
@@ -90,7 +91,6 @@ public class Player : MonoBehaviour, ISaveable
     {
         RotateCamera();
     }
-
     private void FixedUpdate()
     {
         Vector2 v2 = movement.ReadValue<Vector2>();
@@ -99,9 +99,12 @@ public class Player : MonoBehaviour, ISaveable
             playerSFX.StopWalk();
             return;
         }
-        rb.MovePosition(transform.position + (movementTransform.forward * v2.y * movementSpeed * Time.deltaTime)
-                + (movementTransform.right * v2.x * movementSpeed * Time.deltaTime));
+        Vector3 forward = movementTransform.forward;
+        Vector3 right = movementTransform.right;
+        Vector3 moveDirection = (forward * v2.y * movementSpeed * Time.deltaTime) + (right * v2.x * movementSpeed * Time.deltaTime);
+        rb.MovePosition(transform.position + moveDirection);
         playerSFX.PlayWalk();
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -121,10 +124,10 @@ public class Player : MonoBehaviour, ISaveable
         Vector2 mousemovement = cameraMovement.ReadValue<Vector2>();
         xrotation -= mousemovement.y * Time.deltaTime * mouseSensitivity;
         xrotation = Mathf.Clamp(xrotation, -90, 90);
-        yrotation += mousemovement.x * Time.deltaTime * mouseSensitivity;
-        camera.transform.rotation = Quaternion.Euler(xrotation, yrotation, 0);
+        camera.transform.localRotation = Quaternion.Euler(xrotation, 0, 0);
         //Rotating the player
-        transform.localRotation = Quaternion.Euler(0, yrotation, 0);
+        yrotation = mousemovement.x * Time.deltaTime * mouseSensitivity;
+        transform.rotation *= Quaternion.Euler(0, yrotation, 0);
     }
 
     void killPlayer()

@@ -20,7 +20,10 @@ public class Projectile : MonoBehaviour
             Debug.Log("Projectile Hit: AI");
             MazeGameManager.Instance.IncrementScore();
             collision.gameObject.GetComponent<AI>().Damage();
+            StopAllCoroutines();
+            Destroy(gameObject);
         }
         audioSource.Play();
+       
     }
 }
