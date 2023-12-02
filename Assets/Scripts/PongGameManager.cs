@@ -106,6 +106,7 @@ public class PongGameManager : MonoBehaviour
     {
         if(PointL >= 2 || PointR >= 2)
         {
+            GameManager.Instance.IsLoadSave = true;
             SceneManager.LoadScene("DesignMaze");
         }
     }

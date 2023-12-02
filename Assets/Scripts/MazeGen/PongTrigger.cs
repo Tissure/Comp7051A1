@@ -22,6 +22,8 @@ public class PongTrigger : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            MazeGameManager.Instance.SetPlayer(new (transform.position.x - 1, transform.position.y, transform.position.z - 1));
+            MazeGameManager.Instance.SaveGame();
             SceneManager.LoadScene("VsAiScene");
         }
     }
