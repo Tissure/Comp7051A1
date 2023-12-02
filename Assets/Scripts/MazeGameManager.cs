@@ -56,7 +56,7 @@ public class MazeGameManager : MonoBehaviour, ISaveable
     private void Update()
     {
         float dist = Vector3.Distance(player.transform.position, _ai.transform.position);
-        SetMusicVolume(dist);
+        //SetMusicVolume(dist);
     }
 
     public void NewGame()
@@ -88,6 +88,7 @@ public class MazeGameManager : MonoBehaviour, ISaveable
 
     public void SetMusicVolume(float volume)
     {
+        Debug.Log("We have just set volume to: " + volume);
         audioBGM.GetComponent<AudioSource>().volume = volume;
     }
 
