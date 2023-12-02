@@ -91,6 +91,11 @@ public class MazeGameManager : MonoBehaviour, ISaveable
         audioBGM.volume = volume;
     }
 
+    public void ChangeMusic(AudioSource inAudioSource)
+    {
+        audioBGM = inAudioSource;
+    }
+
     public void SetPlayer(Vector3 p)
     {
         player.transform.position = p;
